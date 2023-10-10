@@ -25,10 +25,11 @@ export class CategoriesService {
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+    const category = await this.categoryRepository.findAndCountBy({id})
+    return await this.categoryRepository.save({...updateCategoryDto,...category});
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} category`;
+    return await this.categoryRepository.softDelete({id});
   }
 }

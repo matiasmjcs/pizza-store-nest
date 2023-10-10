@@ -4,32 +4,25 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { ShoppingCart } from 'src/shopping-carts/entities/shopping-cart.entity';
+import { ShoppingCartsService } from 'src/shopping-carts/shopping-carts.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(ShoppingCart)
-    private readonly shoppingCartRepository: Repository<ShoppingCart>,
+    private readonly shoppingCartService: ShoppingCartsService,
   ) { }
-  async create(createUserDto: CreateUserDto) {
-    const cart = this.shoppingCartRepository.create()
-    
-    const shoppingCart = await this.shoppingCartRepository.save(cart)
-
+  
+  async createUser(createUserDto: CreateUserDto) {
+    const shoppingCart = await this.shoppingCartService.create()
     const user = this.userRepository.create({
       username: createUserDto.username,
       email: createUserDto.email,
       password: createUserDto.password,
       isVerified: false, shoppingCart
     })
-
-    const newCart = await this.shoppingCartRepository.findOneBy({ id: user.shoppingCart.id })
-
-    await this.shoppingCartRepository.save({ ...newCart, user })
-
+    await this.shoppingCartService.addIdUser(user, shoppingCart.id)
     return this.userRepository.save(user);
   }
 
@@ -37,8 +30,12 @@ export class UsersService {
     return await this.userRepository.find();
   }
 
-  async findOne(id: number) {
-    return await this.userRepository.findOneBy({ id });
+  async findOneEmail(email:string) {
+    return await this.userRepository.findOneBy({ email });
+  }
+
+  async findOneUserName(username:string) {
+    return await this.userRepository.findOneBy({ username });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

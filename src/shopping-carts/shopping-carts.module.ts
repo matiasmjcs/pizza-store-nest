@@ -11,6 +11,6 @@ import { CategoriesModule } from 'src/categories/categories.module';
   imports:[TypeOrmModule.forFeature([ShoppingCart]), ProductsModule, CategoriesModule],
   controllers: [ShoppingCartsController],
   providers: [ShoppingCartsService, ProductsService],
-  exports:[TypeOrmModule]
+  exports:[TypeOrmModule, ShoppingCartsService]
 })
 export class ShoppingCartsModule {}

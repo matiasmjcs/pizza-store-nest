@@ -1,6 +1,6 @@
+import { Transform } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
-import { ShoppingCart } from "src/shopping-carts/entities/shopping-cart.entity";
-export class CreateUserDto {
+export class RegisterDto {
     @IsString()
     @MinLength(4)
     username: string
@@ -9,7 +9,10 @@ export class CreateUserDto {
     @IsNotEmpty()
     email: string
 
+    @Transform(({value}) => value.trim())
     @IsString()
     @MinLength(6)
     password: string
+
+
 }

@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoriesModule } from './categories/categories.module';
 import { ShoppingCartsModule } from './shopping-carts/shopping-carts.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }),
@@ -22,6 +23,7 @@ import { ShoppingCartsModule } from './shopping-carts/shopping-carts.module';
     ProductsModule,
     CategoriesModule,
     ShoppingCartsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
