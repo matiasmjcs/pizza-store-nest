@@ -8,9 +8,13 @@ import { ProductsService } from 'src/products/products.service';
 import { CategoriesModule } from 'src/categories/categories.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([ShoppingCart]), ProductsModule, CategoriesModule],
+  imports: [
+    TypeOrmModule.forFeature([ShoppingCart]),
+    ProductsModule,
+    CategoriesModule,
+  ],
   controllers: [ShoppingCartsController],
   providers: [ShoppingCartsService, ProductsService],
-  exports:[TypeOrmModule, ShoppingCartsService]
+  exports: [TypeOrmModule, ShoppingCartsService],
 })
 export class ShoppingCartsModule {}

@@ -4,7 +4,7 @@ import { IsOptional } from 'class-validator';
 import { Product } from 'src/products/entities/product.entity';
 
 export class UpdateShoppingCartDto extends PartialType(CreateShoppingCartDto) {
-    @IsOptional()
-    id:number
-    products: Product[]
+  @IsOptional()
+  id: number;
+  products: Product[];
 }

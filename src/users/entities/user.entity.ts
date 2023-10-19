@@ -1,31 +1,36 @@
-import { ShoppingCart } from "src/shopping-carts/entities/shopping-cart.entity";
-import { Column, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ShoppingCart } from 'src/shopping-carts/entities/shopping-cart.entity';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number
+  @Column()
+  username: string;
 
-    @Column()
-    username: string
+  @Column()
+  email: string;
 
-    @Column()
-    email: string
+  @Column()
+  password: string;
 
-    @Column()
-    password: string
+  @Column()
+  isVerified: boolean;
 
-    @Column()
-    isVerified: boolean
+  @DeleteDateColumn()
+  deletedAt: Date;
 
-    @DeleteDateColumn()
-    deletedAt: Date;
-
-    @OneToOne(()=>ShoppingCart,shoppingCart => shoppingCart.user,{eager: true})
-    @JoinColumn()
-    shoppingCart: ShoppingCart
-
+  @OneToOne(() => ShoppingCart, (shoppingCart) => shoppingCart.user, {
+    eager: true,
+  })
+  @JoinColumn()
+  shoppingCart: ShoppingCart;
 }
-
-

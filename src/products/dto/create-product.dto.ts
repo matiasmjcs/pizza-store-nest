@@ -1,21 +1,18 @@
-import { IsInt, IsPositive, IsString, Length } from "class-validator";
-import { Category } from "src/categories/entities/category.entity";
+import { IsInt, IsPositive, IsString, Length } from 'class-validator';
 
 export class CreateProductDto {
-    @IsString()
-    @Length(3, undefined)
-    name: string
+  @IsString()
+  @Length(3, undefined)
+  name: string;
 
-    @IsInt()
-    @IsPositive()
-    price: number
+  @IsInt()
+  @IsPositive()
+  price: number;
 
-    @IsInt()
-    @IsPositive()
-    stock: number
+  @IsInt()
+  @IsPositive()
+  stock: number;
 
-    @IsString()
-    category: string
-
-
+  @IsString()
+  category: string;
 }

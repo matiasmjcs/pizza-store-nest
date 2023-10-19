@@ -1,10 +1,8 @@
 # compiled output
 /dist
 /node_modules
-
-#mysql
-mysql
-
+postgres
+.env
 # Logs
 logs
 *.log

@@ -9,10 +9,10 @@ import { Repository } from 'typeorm';
 export class CategoriesService {
   constructor(
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>
-  ){}
+    private readonly categoryRepository: Repository<Category>,
+  ) {}
   async create(createCategoryDto: CreateCategoryDto) {
-    const category = this.categoryRepository.create(createCategoryDto)
+    const category = this.categoryRepository.create(createCategoryDto);
     return await this.categoryRepository.save(category);
   }
 
@@ -21,15 +21,18 @@ export class CategoriesService {
   }
 
   async findOne(id: number) {
-    return await this.categoryRepository.findOneBy({id});
+    return await this.categoryRepository.findOneBy({ id });
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const category = await this.categoryRepository.findAndCountBy({id})
-    return await this.categoryRepository.save({...updateCategoryDto,...category});
+    const category = await this.categoryRepository.findAndCountBy({ id });
+    return await this.categoryRepository.save({
+      ...updateCategoryDto,
+      ...category,
+    });
   }
 
   async remove(id: number) {
-    return await this.categoryRepository.softDelete({id});
+    return await this.categoryRepository.softDelete({ id });
   }
 }

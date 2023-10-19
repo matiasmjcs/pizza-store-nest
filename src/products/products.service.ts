@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
@@ -13,17 +12,21 @@ export class ProductsService {
     private productRepository: Repository<Product>,
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
-  ){}
+  ) {}
   async create(createProductDto: CreateProductDto) {
-    const category = await this.categoryRepository.findOneBy({name: createProductDto.category})
+    const category = await this.categoryRepository.findOneBy({
+      name: createProductDto.category,
+    });
     if (!category) {
       throw new BadRequestException('category not found');
     }
     const product = this.productRepository.create({
       name: createProductDto.name,
       price: createProductDto.price,
-      stock: createProductDto.stock,category});
-    return await this.productRepository.save(product)
+      stock: createProductDto.stock,
+      category,
+    });
+    return await this.productRepository.save(product);
   }
 
   async findAll() {
@@ -31,10 +34,10 @@ export class ProductsService {
   }
 
   async findOne(id: number) {
-    return await this.productRepository.findOneBy({id});
+    return await this.productRepository.findOneBy({ id });
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(id: number) {
     return `This action updates a #${id} product`;
   }
 

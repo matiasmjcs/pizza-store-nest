@@ -12,7 +12,10 @@ export class ShoppingCartsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateShoppingCartDto: UpdateShoppingCartDto) {
+  update(
+    @Param('id') id: number,
+    @Body() updateShoppingCartDto: UpdateShoppingCartDto,
+  ) {
     return this.shoppingCartsService.addProduct(id, updateShoppingCartDto);
   }
 

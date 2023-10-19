@@ -8,17 +8,27 @@ import { ShoppingCartsModule } from './shopping-carts/shopping-carts.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }),
-  TypeOrmModule.forRoot({
-    type: "mysql",
-    host: "localhost",
-    port: 3307,
-    username: "user_crud",
-    password: "root",
-    database: "db_crud",
-    autoLoadEntities: true,
-    synchronize: true,
-  }),
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.HOST_DB,
+      port: parseInt(process.env.PORT_DB),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
+      autoLoadEntities: true,
+      synchronize: true,
+      ssl: process.env.POSTGRES_SSL === 'true',
+      extra: {
+        ssl:
+          process.env.POSTGRES_SSL === 'true'
+            ? {
+                rejectUnauthorized: false,
+              }
+            : null,
+      },
+    }),
     UsersModule,
     ProductsModule,
     CategoriesModule,
@@ -28,4 +38,4 @@ import { AuthModule } from './auth/auth.module';
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
