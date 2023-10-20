@@ -37,4 +37,9 @@ export class AuthService {
       email: user.email,
     };
   }
+
+  async profile(email: string) {
+    const user = await this.userService.findOneEmail(email);
+    return user;
+  }
 }

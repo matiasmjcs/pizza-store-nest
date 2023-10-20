@@ -4,7 +4,9 @@ import {
   Get,
   Post,
   Request,
+  Response,
   UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -19,12 +21,17 @@ export class AuthController {
     return this.authService.signup(registerDto);
   }
   @Post('login')
-  login(@Body() logindto: LoginDto) {
-    return this.authService.login(logindto);
+  async login(@Body() logindto: LoginDto, @Response() res) {
+    const result = await this.authService.login(logindto);
+    await res.cookie('accessToken', result.token, {
+      sameSite: 'strict',
+      httpOnly: true,
+    });
+    return res.send(result);
   }
   @Get('profile')
   @UseGuards(AuthGuard)
   profile(@Request() req) {
-    return req.user;
+    return this.authService.profile(req.user.email);
   }
 }
