@@ -1,30 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UsersModule } from 'src/users/users.module';
-import { UsersService } from 'src/users/users.service';
-import { ShoppingCartsModule } from 'src/shopping-carts/shopping-carts.module';
-import { ShoppingCartsService } from 'src/shopping-carts/shopping-carts.service';
-import { ProductsModule } from 'src/products/products.module';
+import { UserModule } from 'src/users/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthService } from './auth.service';
 
 @Module({
-  imports: [
-    UsersModule,
-    ShoppingCartsModule,
-    ProductsModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('TOKEN_SECRET'),
-        signOptions: { expiresIn: '1h' },
-        global: true,
-      }),
-      inject: [ConfigService],
-    }),
-  ],
+  imports: [UserModule, JwtModule, ConfigModule],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, ShoppingCartsService],
+  providers: [AuthService, ConfigService],
 })
 export class AuthModule {}

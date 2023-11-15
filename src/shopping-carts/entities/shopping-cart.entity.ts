@@ -1,10 +1,9 @@
-import { Product } from 'src/products/entities/product.entity';
+import { CartProduct } from 'src/cart-product/entities/cart-product.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -17,10 +16,8 @@ export class ShoppingCart {
   @OneToOne(() => User, (user) => user.shoppingCart, { cascade: true })
   @JoinColumn()
   user: User;
-
-  @ManyToMany(() => Product, (product) => product.shoppingCarts, {
+  @OneToMany(() => CartProduct, (CartProduct) => CartProduct.shoppingCart, {
     eager: true,
   })
-  @JoinTable()
-  products: Product[];
+  cartProducts: CartProduct[];
 }

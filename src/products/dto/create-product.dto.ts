@@ -1,11 +1,11 @@
-import { IsInt, IsPositive, IsString, Length } from 'class-validator';
+import { IsInt, IsNumber, IsPositive, IsString, Length } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
   @Length(3, undefined)
   name: string;
 
-  @IsInt()
+  @IsNumber()
   @IsPositive()
   price: number;
 

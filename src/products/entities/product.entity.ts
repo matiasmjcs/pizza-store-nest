@@ -1,11 +1,11 @@
+import { CartProduct } from 'src/cart-product/entities/cart-product.entity';
 import { Category } from 'src/categories/entities/category.entity';
-import { ShoppingCart } from 'src/shopping-carts/entities/shopping-cart.entity';
 import {
   Column,
   DeleteDateColumn,
   Entity,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -17,7 +17,7 @@ export class Product {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'float' })
   price: number;
 
   @Column()
@@ -31,6 +31,6 @@ export class Product {
   })
   category: Category;
 
-  @ManyToMany(() => ShoppingCart, (shoppingCart) => shoppingCart.products)
-  shoppingCarts: ShoppingCart[];
+  @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
+  cartProducts: CartProduct[];
 }

@@ -1,15 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { UserService } from 'src/users/user.service';
 import { RegisterDto } from './dto/register.dto';
 import * as bcryptjs from 'bcryptjs';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
   async signup(registerDto: RegisterDto) {
     const user = await this.userService.findOneEmail(registerDto.email);
@@ -31,15 +33,13 @@ export class AuthService {
       throw new BadRequestException('credenciales incorrectas');
     }
     const payload = { email: user.email };
-    const token = await this.jwtService.signAsync(payload);
+    const token = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get('TOKEN_SECRET'),
+      expiresIn: '1h',
+    });
     return {
       token: token,
       email: user.email,
     };
-  }
-
-  async profile(email: string) {
-    const user = await this.userService.findOneEmail(email);
-    return user;
   }
 }

@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  postgresDB:
+  postgresDBdev:
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -11,3 +11,20 @@ services:
       - ./postgres:/var/lib/postgresql/data
     ports:
       - "5436:5432"
+    networks:
+      - pizza_store_network-app
+  postgresDBtest:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=pizza_store
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - "5437:5432"
+    networks:
+      - pizza_store_network-app
+networks: 
+  pizza_store_network-app:
