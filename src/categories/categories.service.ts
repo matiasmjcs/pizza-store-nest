@@ -24,6 +24,10 @@ export class CategoriesService {
     return await this.categoryRepository.findOneBy({ id });
   }
 
+  async findByName(name: string) {
+    return await this.categoryRepository.findOneBy({ name });
+  }
+
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     const category = await this.categoryRepository.findAndCountBy({ id });
     return await this.categoryRepository.save({

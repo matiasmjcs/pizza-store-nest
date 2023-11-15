@@ -3,20 +3,19 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
-import { Category } from 'src/categories/entities/category.entity';
+import { CategoriesService } from 'src/categories/categories.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    private categoryService: CategoriesService,
   ) {}
   async create(createProductDto: CreateProductDto) {
-    const category = await this.categoryRepository.findOneBy({
-      name: createProductDto.category,
-    });
+    const category = await this.categoryService.findByName(
+      createProductDto.category,
+    );
     if (!category) {
       throw new BadRequestException('category not found');
     }
